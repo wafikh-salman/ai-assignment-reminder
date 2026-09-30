@@ -20,17 +20,17 @@ class AiAssistantApiView(APIView):
         students = [
             {
                 "name": "Rahul",
-                "email": "wafikhsalman07@gmail.com",
+                "email": "wafikhsalman07@gmail",
                 "submitted": False
             },
             {
                 "name": "Anu",
-                "email": "wafikhsalman07@gmail.com",
+                "email": "wafikhsalman07@gmai",
                 "submitted": True
             },
             {
                 "name": "Arjun",
-                "email": "wafikhsalman07@gmail.com",
+                "email": "wafikhsalman07@gmail",
                 "submitted": False
             }
         ]
