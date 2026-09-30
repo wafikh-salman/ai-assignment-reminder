@@ -1,108 +1,205 @@
 :root {
-  /* Color Palette - Light Mode Default */
-  --bg-page: #f8fafc;
-  --bg-card: #ffffff;
-  --bg-input: #ffffff;
-  --bg-input-hover: #fcfdfe;
-  --bg-badge: #eff6ff;
+  /* Common System Values */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --border-card: #e2e8f0;
+  --radius-card: 14px;
+  --radius-input: 8px;
+  --radius-button: 8px;
+  --radius-pill: 9999px;
+
+  /* LIGHT MODE DEFAULT */
+  --bg-app: #f8fafc;
+  --bg-header: #ffffff;
+  --bg-card: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-input-hover: #ffffff;
+
+  --border-default: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --border-hover: #cbd5e1;
   --border-input: #cbd5e1;
-  --border-input-hover: #94a3b8;
-  --border-badge: #dbeafe;
 
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-muted: #94a3b8;
   --text-placeholder: #94a3b8;
-  --text-badge: #2563eb;
+  --text-inverse: #ffffff;
 
   /* Accent Color - Sophisticated Indigo */
   --accent: #4f46e5;
   --accent-hover: #4338ca;
   --accent-active: #3730a3;
-  --accent-focus-ring: rgba(79, 70, 229, 0.18);
-  --accent-glow: rgba(79, 70, 229, 0.08);
+  --accent-subtle: #eef2ff;
+  --accent-ring: rgba(79, 70, 229, 0.18);
 
-  /* Validation Error State */
-  --color-error: #dc2626;
-  --border-error: #ef4444;
-  --ring-error: rgba(239, 68, 68, 0.18);
-  --bg-error-subtle: #fef2f2;
-  --border-error-subtle: #fecaca;
-
-  /* Success State */
+  /* Feedback Colors */
   --color-success: #059669;
   --bg-success-subtle: #ecfdf5;
   --border-success-subtle: #a7f3d0;
 
-  /* Skeleton Shimmer Colors */
+  --color-error: #dc2626;
+  --bg-error-subtle: #fef2f2;
+  --border-error-subtle: #fecaca;
+  --ring-error: rgba(220, 38, 38, 0.18);
+
+  /* Skeleton Shimmer */
   --skeleton-base: #f1f5f9;
   --skeleton-highlight: #e2e8f0;
 
-  /* Shadows & Radius */
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
   --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.05),
-    0 10px 25px -5px rgba(15, 23, 42, 0.04),
-    0 8px 10px -6px rgba(15, 23, 42, 0.02);
+    0 8px 16px -4px rgba(15, 23, 42, 0.04);
   --shadow-button: 0 1px 2px 0 rgba(15, 23, 42, 0.08),
-    0 4px 12px 0 rgba(79, 70, 229, 0.25);
+    0 4px 12px 0 rgba(79, 70, 229, 0.22);
   --shadow-button-hover: 0 2px 4px 0 rgba(15, 23, 42, 0.08),
-    0 6px 18px 0 rgba(79, 70, 229, 0.32);
-
-  --radius-card: 16px;
-  --radius-input: 10px;
-  --radius-button: 10px;
-  --radius-badge: 9999px;
-
-  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, sans-serif;
+    0 6px 16px 0 rgba(79, 70, 229, 0.3);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-page: #0b0f19;
-    --bg-card: #111827;
-    --bg-input: #0f172a;
-    --bg-input-hover: #131c31;
-    --bg-badge: rgba(99, 102, 241, 0.1);
+/* Explicit Light Theme (when toggled) */
+[data-theme="light"] {
+  --bg-app: #f8fafc;
+  --bg-header: #ffffff;
+  --bg-card: #ffffff;
+  --bg-subtle: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-input-hover: #ffffff;
 
-    --border-card: #1f293d;
+  --border-default: #e2e8f0;
+  --border-subtle: #edf2f7;
+  --border-hover: #cbd5e1;
+  --border-input: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-placeholder: #94a3b8;
+  --text-inverse: #ffffff;
+
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-active: #3730a3;
+  --accent-subtle: #eef2ff;
+  --accent-ring: rgba(79, 70, 229, 0.18);
+
+  --color-success: #059669;
+  --bg-success-subtle: #ecfdf5;
+  --border-success-subtle: #a7f3d0;
+
+  --color-error: #dc2626;
+  --bg-error-subtle: #fef2f2;
+  --border-error-subtle: #fecaca;
+  --ring-error: rgba(220, 38, 38, 0.18);
+
+  --skeleton-base: #f1f5f9;
+  --skeleton-highlight: #e2e8f0;
+
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.05),
+    0 8px 16px -4px rgba(15, 23, 42, 0.04);
+  --shadow-button: 0 1px 2px 0 rgba(15, 23, 42, 0.08),
+    0 4px 12px 0 rgba(79, 70, 229, 0.22);
+  --shadow-button-hover: 0 2px 4px 0 rgba(15, 23, 42, 0.08),
+    0 6px 16px 0 rgba(79, 70, 229, 0.3);
+}
+
+/* DARK MODE - System preference fallback & explicit dark */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-app: #090d16;
+    --bg-header: #0d131f;
+    --bg-card: #111726;
+    --bg-subtle: #161e31;
+    --bg-input: #0f1624;
+    --bg-input-hover: #141c2e;
+
+    --border-default: #1e293b;
+    --border-subtle: #162033;
+    --border-hover: #334155;
     --border-input: #26334a;
-    --border-input-hover: #3b4c68;
-    --border-badge: rgba(99, 102, 241, 0.25);
 
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
     --text-placeholder: #475569;
-    --text-badge: #818cf8;
+    --text-inverse: #090d16;
 
     --accent: #6366f1;
     --accent-hover: #4f46e5;
     --accent-active: #4338ca;
-    --accent-focus-ring: rgba(99, 102, 241, 0.3);
-    --accent-glow: rgba(99, 102, 241, 0.12);
-
-    --color-error: #f87171;
-    --border-error: #f87171;
-    --ring-error: rgba(248, 113, 113, 0.25);
-    --bg-error-subtle: rgba(239, 68, 68, 0.1);
-    --border-error-subtle: rgba(239, 68, 68, 0.25);
+    --accent-subtle: rgba(99, 102, 241, 0.12);
+    --accent-ring: rgba(99, 102, 241, 0.3);
 
     --color-success: #34d399;
     --bg-success-subtle: rgba(16, 185, 129, 0.12);
-    --border-success-subtle: rgba(16, 185, 129, 0.25);
+    --border-success-subtle: rgba(16, 185, 129, 0.28);
 
-    --skeleton-base: #1e293b;
-    --skeleton-highlight: #2c3a52;
+    --color-error: #f87171;
+    --bg-error-subtle: rgba(239, 68, 68, 0.12);
+    --border-error-subtle: rgba(239, 68, 68, 0.28);
+    --ring-error: rgba(248, 113, 113, 0.28);
 
+    --skeleton-base: #172033;
+    --skeleton-highlight: #243049;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
     --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06),
-      0 20px 40px -15px rgba(0, 0, 0, 0.6);
-    --shadow-button: 0 1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 4px 16px 0 rgba(99, 102, 241, 0.35);
-    --shadow-button-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.4),
-      0 8px 22px 0 rgba(99, 102, 241, 0.45);
+      0 12px 28px -4px rgba(0, 0, 0, 0.55);
+    --shadow-button: 0 1px 2px 0 rgba(0, 0, 0, 0.35),
+      0 4px 14px 0 rgba(99, 102, 241, 0.32);
+    --shadow-button-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.45),
+      0 6px 18px 0 rgba(99, 102, 241, 0.42);
   }
+}
+
+/* Explicit Dark Theme (when toggled) */
+[data-theme="dark"] {
+  --bg-app: #090d16;
+  --bg-header: #0d131f;
+  --bg-card: #111726;
+  --bg-subtle: #161e31;
+  --bg-input: #0f1624;
+  --bg-input-hover: #141c2e;
+
+  --border-default: #1e293b;
+  --border-subtle: #162033;
+  --border-hover: #334155;
+  --border-input: #26334a;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-placeholder: #475569;
+  --text-inverse: #090d16;
+
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-active: #4338ca;
+  --accent-subtle: rgba(99, 102, 241, 0.12);
+  --accent-ring: rgba(99, 102, 241, 0.3);
+
+  --color-success: #34d399;
+  --bg-success-subtle: rgba(16, 185, 129, 0.12);
+  --border-success-subtle: rgba(16, 185, 129, 0.28);
+
+  --color-error: #f87171;
+  --bg-error-subtle: rgba(239, 68, 68, 0.12);
+  --border-error-subtle: rgba(239, 68, 68, 0.28);
+  --ring-error: rgba(248, 113, 113, 0.28);
+
+  --skeleton-base: #172033;
+  --skeleton-highlight: #243049;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 12px 28px -4px rgba(0, 0, 0, 0.55);
+  --shadow-button: 0 1px 2px 0 rgba(0, 0, 0, 0.35),
+    0 4px 14px 0 rgba(99, 102, 241, 0.32);
+  --shadow-button-hover: 0 2px 4px 0 rgba(0, 0, 0, 0.45),
+    0 6px 18px 0 rgba(99, 102, 241, 0.42);
 }
 
 *,
@@ -115,23 +212,22 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
 }
 
 body {
   font-family: var(--font-family);
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.5;
   color: var(--text-primary);
-  background-color: var(--bg-page);
+  background-color: var(--bg-app);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #root {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
+  flex-direction: column;
 }
