@@ -3,6 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import AiAssistantSerializer
+from .services import process_pending_students
+
 # Create your views here.
 class AiAssistantApiView(APIView):
     def post(self,request):
@@ -18,27 +20,31 @@ class AiAssistantApiView(APIView):
         students = [
             {
                 "name": "Rahul",
-                "email": "rahul@example.com",
+                "email": "wafikhsalman07@gmail.com",
                 "submitted": False
             },
             {
                 "name": "Anu",
-                "email": "anu@example.com",
+                "email": "wafikhsalman07@gmail.com",
                 "submitted": True
             },
             {
                 "name": "Arjun",
-                "email": "arjun@example.com",
+                "email": "wafikhsalman07@gmail.com",
                 "submitted": False
             }
         ]
         for student in students:
             if student['submitted'] == False:
                 response.append({"name":student['name'],"email":student['email']})
-                   
+        results = process_pending_students(
+        response,
+        assignment_name,
+        due_date
+    )          
         return Response({
-            "assignment_name":assignment_name,
-            "due_date":due_date,
-            "pending_students":response
-        },status=status.HTTP_200_OK)
+    "assignment_name": assignment_name,
+    "due_date": due_date,
+    "results": results
+},status=status.HTTP_200_OK)
     

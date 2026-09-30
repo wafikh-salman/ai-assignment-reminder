@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import os
 import json
 from groq import Groq
+from email_services import execute_tool
 
 load_dotenv()
 
@@ -32,7 +33,7 @@ def validate_reminder_email(
     return True, None
 
 
-def generate_reminder_email(studentname, assignment_name, due_date):
+def generate_reminder_email(studentname,student_email,assignment_name, due_date):
 
     client = Groq(api_key=GROQ_API_KEY)
 
@@ -52,19 +53,34 @@ Instructions:
     - Do not add information that was not provided.
     - Keep the email minimal and professional.
     - Do not invent deadlines, penalties, marks, or other details.
-
-Output:
-    Return only valid JSON:
-
-    {{
-        "subject": "...",
-        "body": "..."
-    }}
-
+    - Generate the reminder email and use the send_email tool.
+    - Do not generate or modify the recipient email address.
+    - The backend controls the recipient.
     - Do not add markdown.
-    - Do not add any fields other than "subject" and "body".
 """
-
+    email_tool = [
+        {
+            "type": "function",
+            "function": {
+                "name": "send_email",
+                "description": "Send an assignment reminder email to a student.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "subject": {
+                            "type": "string",
+                            "description": "Subject of the reminder email"
+                        },
+                        "body": {
+                            "type": "string",
+                            "description": "Body of the reminder email"
+                        }
+                    },
+                    "required": ["subject", "body"]
+                }
+            }
+        }
+]
     max_retries = 2
 
     for attempt in range(max_retries + 1):
@@ -80,14 +96,28 @@ Output:
                     "content": prompt
                 }
             ],
-            model="openai/gpt-oss-20b"
+            model="openai/gpt-oss-20b",
+            tools=email_tool,
+            tool_choice="required"
         )
-
-        raw_data = response.choices[0].message.content
-
         try:
-            data = json.loads(raw_data)
+            
+            message = response.choices[0].message
 
+            if not message.tool_calls:
+                print("No tool call was generated")
+                return None
+
+            tool_call = message.tool_calls[0]
+
+            tool_name = tool_call.function.name
+            tool_arguments = tool_call.function.arguments
+            
+            data = json.loads(tool_arguments)
+            result = execute_tool(tool_name,data,student_email)
+
+            return result 
+        
         except json.JSONDecodeError:
             reason = "invalid JSON response"
 
@@ -158,9 +188,33 @@ Output:
             )
             return None
 
+def process_pending_students(
+    pending_students,
+    assignment_name,
+    due_date
+):
+    results = []
+
+    for student in pending_students:
+
+        result = generate_reminder_email(
+            student["name"],
+            student["email"],
+            assignment_name,
+            due_date
+        )
+
+        results.append({
+            "student": student["name"],
+            "result": result
+        })
+
+    return results
+
 
 result = generate_reminder_email(
     "Rahul",
+    "wafikhsalman07@gmail.com",
     "Python Assignment 3",
     "2026-09-30"
 )
