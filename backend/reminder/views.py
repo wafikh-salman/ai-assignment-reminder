@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import AiAssistantSerializer
 from .services import process_pending_students
-
+from datetime import date
 # Create your views here.
 class AiAssistantApiView(APIView):
     def post(self,request):
@@ -16,21 +16,28 @@ class AiAssistantApiView(APIView):
         data = serializer.validated_data
         assignment_name = data.get('assignment_name')
         due_date = data.get('due_date')
+        
+        if due_date < date.today():
+            return Response({
+                "error":"Due date is already passed"
+            })
+    
+    
         response = []
         students = [
             {
                 "name": "Rahul",
-                "email": "wafikhsalman07@gmail",
+                "email": "wafikhsalman07@gmail.com",
                 "submitted": False
             },
             {
                 "name": "Anu",
-                "email": "wafikhsalman07@gmai",
+                "email": "wafikhsalman07@gmai.com",
                 "submitted": True
             },
             {
                 "name": "Arjun",
-                "email": "wafikhsalman07@gmail",
+                "email": "wafikhsalman07@gmail.com",
                 "submitted": False
             }
         ]

@@ -11,6 +11,7 @@ resend.api_key = RESEND_API_KEY
 
 def send_email(to, subject, body):
 
+    
     params = {
         "from": "onboarding@resend.dev",
         "to": [to],
@@ -23,50 +24,66 @@ def send_email(to, subject, body):
 
         return {
             "success": True,
-            "message_id": response["id"]
+            "message_id": response["id"],
+            "retryable": False
         }
 
     except Exception as e:
+        error_message = str(e)
+        if "Invalid `to` field" in error_message:
+            return {
+            "success": False,
+            "error": error_message,
+            "retryable": False
+        }
+        
         return {
             "success": False,
-            "error": str(e)
+            "error": error_message,
+            "retryable": True
         }
         
 def execute_tool(tool_name,arguments,trusted_email):
     if tool_name != "send_email":
         return {
         "success": False,
-        "error": "Tool Name mismatch"
+        "error": "Tool Name mismatch",
+        "retryable": True
     }
     
     if "subject" not in arguments:
         return {
         "success": False,
-        "error": "Subject missing"
+        "error": "Subject missing",
+        "retryable": True
     }
         
     if "body" not in arguments:
         return {
         "success": False,
-        "error": "body Missing"
+        "error": "body Missing",
+        "retryable": True
     }
     
     if not isinstance(arguments["subject"], str) or not isinstance(arguments["body"], str):
         return {
             "success":False,
-            "error":"both  should be string"
+            "error":"both  should be string",
+            "retryable": True
         }
     
     if not arguments["subject"].strip():
         return {
                 "success":False,
-                "error":"it Cant be empty"
+                "error":"it Cant be empty",
+                "retryable": True
             }
     
     if not arguments["body"].strip():
         return {
            "success":False,
-            "error":"it Cant be empty" 
+            "error":"it Cant be empty" ,
+            "retryable": True
         }
         
     result = send_email(trusted_email,arguments['subject'],arguments['body'])

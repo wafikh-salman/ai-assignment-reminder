@@ -95,7 +95,19 @@ Instructions:
             data = json.loads(tool_arguments)
             result = execute_tool(tool_name,data,student_email)
 
-            return result 
+            if result["success"]:
+                result["attempts"] = attempt + 1
+                return result
+            
+            if result["retryable"] and attempt < max_retries:
+                print(
+                    f"Attempt {attempt + 1} failed: "
+                    f"{result.get('error')}. Retrying..."
+                )
+                continue
+
+            result["attempts"] = attempt + 1
+            return result
         
         except json.JSONDecodeError:
 
@@ -135,6 +147,7 @@ def process_pending_students(
             results.append({
                 "student": student["name"],
                 "status": "sent",
+                "attempts": result.get("attempts"),
                 "message_id": result.get("message_id")
             })
 
@@ -142,10 +155,13 @@ def process_pending_students(
             failed += 1
 
             results.append({
-                "student": student["name"],
-                "status": "failed",
-                "error": result.get("error") if result else "Unknown error"
-            })
+            "student": student["name"],
+            "status": "failed",
+            "attempts": result.get("attempts") if result else 0,
+            "error": result.get("error")
+            if result
+            else "Unknown error"
+        })
 
     return {
         "total_students": len(pending_students),
